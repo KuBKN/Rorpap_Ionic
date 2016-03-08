@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic', 'ngRoute'])
+var app = angular.module('starter', ['ionic', 'ngRoute', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -42,22 +42,24 @@ app.service('LoginService', ['$http', '$q', function($http,$q) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
-            $http.post('http://localhost:3000/api/user/login', user)
+            $http.post('http://188.166.180.204:8080/api/user/login', user)
             .success(function(data) {
-              
+
               console.log(data[0]._id);
 
-                deferred.resolve('Welcome ' + name + '!');  
+                deferred.resolve('Welcome ' + name + '!');
             })
             .error(function(data) {
-              deferred.reject('Wrong credentials.');
+              deferred.reject(data);
             });
 
             promise.success = function(fn) {
+                console.log("1" + fn);
                 promise.then(fn);
                 return promise;
             }
             promise.error = function(fn) {
+                console.log("2" + fn);
                 promise.then(null, fn);
                 return promise;
             }
