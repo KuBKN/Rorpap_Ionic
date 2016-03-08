@@ -26,8 +26,10 @@ var app = angular.module('starter', ['ionic', 'ngRoute'])
 app.config(function($routeProvider, $locationProvider ) {
 
   $routeProvider.when('/',{
-        controller: 'HomeController',
         templateUrl: './views/home.html'
+  }).when('/login', {
+        controller: 'LoginController',
+        templateUrl: './views/login.html'
   }).when('/about', {
         controller: 'AboutController',
         templateUrl: './views/about.html'
