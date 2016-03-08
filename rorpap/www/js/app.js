@@ -36,3 +36,32 @@ app.config(function($routeProvider, $locationProvider ) {
   });
 });
 
+app.service('LoginService', ['$http', '$q', function($http,$q) {
+    return {
+        loginUser: function(user) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            $http.post('http://localhost:3000/api/user/login', user)
+            .success(function(data) {
+              
+              console.log(data[0]._id);
+
+                deferred.resolve('Welcome ' + name + '!');  
+            })
+            .error(function(data) {
+              deferred.reject('Wrong credentials.');
+            });
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
+    }
+}]);

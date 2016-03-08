@@ -4,13 +4,13 @@
 <div class="list">
 	<label class="item item-input">
 		<span class="input-label">E-mail</span>
-		<input type="text">
+		<input type="text" ng-model="data.email">
 	</label>
 	<label class="item item-input">
 		<span class="input-label">Password</span>
-		<input type="password">
+		<input type="password" ng-model="data.password1">
 	</label>
 	<button class="button button-block button-positive" ng-click="Login()">
-		{{ title }}
+		Submit
 	</button>
 </div>
