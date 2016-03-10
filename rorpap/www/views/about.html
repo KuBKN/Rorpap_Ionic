@@ -3,8 +3,12 @@
 </a>
 <h1>{{ title }}</h1>
 
-{{ round }}
 <br>
 {{ loc.coords.latitude }}
 <br>
 {{ loc.coords.longitude }}
+
+
+<div class="bar bar-header bar-calm" ng-click="sendLocation()">
+  <h1 class="title">Update Location</h1>
+</div>

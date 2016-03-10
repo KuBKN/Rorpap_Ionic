@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic', 'ngRoute', 'ngCordova'])
+var app = angular.module('starter', ['ionic', 'ionic.service.core', 'ngRoute', 'ngCordova', 'LocalStorageModule'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -20,10 +20,25 @@ var app = angular.module('starter', ['ionic', 'ngRoute', 'ngCordova'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    var push = new Ionic.Push({
+        "debug": true
+    });
+
+    push.register(function(token){
+        console.log("token : "+token.token);
+    });
   });
 });
 
-app.config(function($routeProvider, $locationProvider ) {
+app.config(function($routeProvider, $locationProvider, localStorageServiceProvider) {
+    // https://github.com/grevory/angular-local-storage
+    localStorageServiceProvider
+    .setPrefix('rorpap')
+    .setStorageType('sessionStorage')
+    .setStorageCookie(365, '/')
+    .setStorageCookieDomain('rorpap')
+    .setNotify(true, true);
 
   $routeProvider.when('/',{
         templateUrl: './views/home.html'
