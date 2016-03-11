@@ -1,7 +1,7 @@
-app.controller('AboutController', ['$scope', '$cordovaGeolocation', '$cordovaBackgroundGeolocation', function($scope, $cordovaGeolocation, $cordovaBackgroundGeolocation, localStorageService) {
+app.controller('AboutController', ['$scope', '$location', '$cordovaGeolocation', '$cordovaBackgroundGeolocation', 'localStorageService', function($scope, $location, $cordovaGeolocation, $cordovaBackgroundGeolocation, localStorageService) {
 
 	if (localStorageService.isSupported) {
-		$scope.user_id = get("user_id");
+		$scope.user_id = localStorageService.get("user_id");
 	}
 	else {
 		alert("cannot read cookie");
@@ -13,10 +13,10 @@ app.controller('AboutController', ['$scope', '$cordovaGeolocation', '$cordovaBac
 		.then(function (position) {
 			var lat  = position.coords.latitude;
 			var long = position.coords.longitude;
-			console.log(position);
+			console.log("getCurrentPosition" + JSON.stringify(position));
 			$scope.loc = position;
 		}, function(err) {
-			console.log(err + "");
+			console.log("getCurrentPosition" + JSON.stringify(err));
 			for (var key in err) {
     			alert('key: ' + key + '\n' + 'value: ' + err[key]);
 			}
@@ -29,16 +29,18 @@ app.controller('AboutController', ['$scope', '$cordovaGeolocation', '$cordovaBac
 					var lng = position.coords.longitude;
 					var tracking = {user_id: $scope.user_id, date: new Date(), location: lat + "," + lng};
 
-					$http.post('http://188.166.180.204:8080/api/tracking/update', tracking)
+					$http.post('http://188.166.43.31:8080/api/tracking/update', tracking)
 						.success(function(data) {
-							alert("Update OK")
+							alert("Update OK");
 						})
 						.error(function(data) {
-							alert("Update Failed: " + data)
+							alert("Update Failed: " + data);
+							console.log("Update Failed: " + JSON.stringify(data));
 						});
 
 				}, function(err) {
-					alert("Get location Failed: " + err)
+					alert("Get location Failed");
+					console.log("Get location Failed: " + JSON.stringify(err));
 				});
 
 
@@ -64,5 +66,10 @@ app.controller('AboutController', ['$scope', '$cordovaGeolocation', '$cordovaBac
 	// 	  console.log(position);
 	// 	  $scope.loc = position;
     //   });
+
+	$scope.logout = function() {
+		localStorageService.clearAll();
+		$location.path('/login');
+	}
 
 }]);

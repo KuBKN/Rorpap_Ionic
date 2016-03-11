@@ -1,7 +1,8 @@
 <a href="#/">
 	Back
 </a>
-<h1>{{ title }}</h1>
+<br>
+user_id={{ user_id }}
 
 <br>
 {{ loc.coords.latitude }}
@@ -9,6 +10,6 @@
 {{ loc.coords.longitude }}
 
 
-<div class="bar bar-header bar-calm" ng-click="sendLocation()">
-  <h1 class="title">Update Location</h1>
-</div>
+<button class="button button-calm" ng-click="sendLocation()">Update Location</button>
+
+<button class="button button-assertive" ng-click="logout()">Logout</button>

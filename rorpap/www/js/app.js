@@ -35,10 +35,8 @@ app.config(function($routeProvider, $locationProvider, localStorageServiceProvid
     // https://github.com/grevory/angular-local-storage
     localStorageServiceProvider
     .setPrefix('rorpap')
-    .setStorageType('sessionStorage')
-    .setStorageCookie(365, '/')
-    .setStorageCookieDomain('rorpap')
-    .setNotify(true, true);
+    .setStorageType('localStorage')
+    .setStorageCookieDomain('rorpap');
 
   $routeProvider.when('/',{
         templateUrl: './views/home.html'
