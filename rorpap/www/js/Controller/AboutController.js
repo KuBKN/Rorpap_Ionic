@@ -1,4 +1,4 @@
-app.controller('AboutController', ['$scope', '$location', '$cordovaGeolocation', '$cordovaBackgroundGeolocation', 'localStorageService', function($scope, $location, $cordovaGeolocation, $cordovaBackgroundGeolocation, localStorageService) {
+app.controller('AboutController', ['$scope', '$http', '$location', '$cordovaGeolocation', 'localStorageService', function($scope, $http, $location, $cordovaGeolocation, localStorageService) {
 
 	if (localStorageService.isSupported) {
 		$scope.user_id = localStorageService.get("user_id");
@@ -22,50 +22,32 @@ app.controller('AboutController', ['$scope', '$location', '$cordovaGeolocation',
 			}
 		});
 
-		$scope.sendLocation = function() {
-			$cordovaGeolocation.getCurrentPosition(posOptions)
-				.then(function (position) {
-					var lat  = position.coords.latitude;
-					var lng = position.coords.longitude;
-					var tracking = {user_id: $scope.user_id, date: new Date(), location: lat + "," + lng};
+	$scope.sendLocation = function() {
+		$cordovaGeolocation.getCurrentPosition(posOptions)
+			.then(function (position) {
+				var lat  = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var tracking = {user_id: $scope.user_id, date: new Date(), location: lat + "," + lng};
 
-					$http.post('http://188.166.43.31:8080/api/tracking/update', tracking)
-						.success(function(data) {
-							alert("Update OK");
-						})
-						.error(function(data) {
-							alert("Update Failed: " + data);
-							console.log("Update Failed: " + JSON.stringify(data));
-						});
+				console.log("Sending... " + JSON.stringify(tracking));
 
-				}, function(err) {
-					alert("Get location Failed");
-					console.log("Get location Failed: " + JSON.stringify(err));
-				});
+				$http.post('http://192.168.43.31:8080/api/tracking/update', tracking)
+					.success(function(data) {
+						console.log("ok " + JSON.stringify(data));
+						alert("Update OK " + data);
+					})
+					.error(function(data) {
+						alert("Update Failed: " + data);
+						console.log("Update Failed: " + JSON.stringify(data));
+					});
+
+			}, function(err) {
+				alert("Get location Failed");
+				console.log("Get location Failed: " + JSON.stringify(err));
+			});
 
 
-		}
-	//
-	// var options = {
-	//     // https://github.com/christocracy/cordova-plugin-background-geolocation#config
-	//   };
-	//
-	// $scope.round = 1;
-	// 	console.log($cordovaGeolocation);
-	// $cordovaBackgroundGeolocation.configure(options)
-    // .then(
-    //   null, // Background never resolves
-    //   function (err) { // error callback
-    //     console.error(err);
-    //   },
-    //   function (location) { // notify callback
-	// 	  var lat  = position.coords.latitude;
-	// 	  var long = position.coords.longitude;
-	//
-	// 	  $scope.round++;
-	// 	  console.log(position);
-	// 	  $scope.loc = position;
-    //   });
+	};
 
 	$scope.logout = function() {
 		localStorageService.clearAll();
