@@ -31,7 +31,7 @@ app.controller('AboutController', ['$scope', '$http', '$location', '$cordovaGeol
 
 				console.log("Sending... " + JSON.stringify(tracking));
 
-				$http.post('http://192.168.43.31:8080/api/tracking/update', tracking)
+				$http.post('http://188.166.180.204:8080/api/tracking/update', tracking)
 					.success(function(data) {
 						console.log("ok " + JSON.stringify(data));
 						alert("Update OK " + data);

@@ -21,7 +21,7 @@ app.controller('LoginController', ['$scope', '$http', '$location', 'LoginService
 
 		console.log(JSON.stringify($scope.data));
 
-		$http.post('http://192.168.43.31:8080/api/user/login', $scope.data)
+		$http.post('http://188.166.180.204:8080/api/user/login', $scope.data)
 			.success(function(data) {
 				if (localStorageService.isSupported) {
 					var user_id = data[0]._id;
